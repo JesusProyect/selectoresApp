@@ -1,0 +1,87 @@
+<h1 class="mt-5">Selectores anidados</h1>
+<hr>
+
+<form   (ngSubmit)="guardar()"
+        [formGroup]="miFormulario" >
+
+    <!-- Region -->
+    <div class="row mb-3">
+        <div class="col">
+            <label class="form-label"> Continente:</label>
+            <select class="form-control mb-2"
+                    formControlName="region">
+                <option value=""> -- Seleccione Continente -- </option>
+                <option *ngFor="let region of regiones; let i = index"
+                        [value]="region | lowercase"> {{ region }} </option>
+
+            </select>
+            <span *ngIf="campoNoValido( 'region' )"
+                  class="text text-danger ">
+                Campo obligatorio
+            </span>
+        </div>
+    </div>
+
+       <!-- Pais -->
+       <div class="row mb-3" *ngIf="paises.length !==0">
+        <div class="col">
+            <label class="form-label"> Pais:</label>
+            <select class="form-control"
+                    formControlName="pais">
+                <option value=""> -- Seleccione Pais -- </option>
+                <option *ngFor="let pais of paises; let i = index"
+                        [value]="pais.alpha3Code"> {{ pais.name }} </option>
+
+            </select>
+            <span *ngIf="campoNoValido( 'pais' )"
+                  class="text text-danger ">
+                Campo obligatorio
+            </span>
+        </div>
+    </div>
+
+      <!-- Frontera -->
+      <div class="row mb-3" *ngIf="fronteras.length !==0">
+        <div class="col">
+            <label class="form-label"> Fronteras:</label>
+            <select class="form-control"
+                    formControlName="frontera">
+                <option value=""> -- Seleccione Frontera -- </option>
+                <option *ngFor="let frontera of fronteras; let i = index"
+                        [value]="frontera.alpha3Code"> {{ frontera.name }} </option>
+                <!-- MI SOLUCION -->
+                <!-- <option *ngFor="let frontera of fronteras   ; let i = index"
+                        [value]="frontera"> {{ frontera }} </option> -->
+
+            </select>
+            <span *ngIf="campoNoValido( 'frontera' )"
+                  class="text text-danger ">
+                Campo obligatorio
+            </span>
+        </div>
+    </div>
+    
+    <div class="row" *ngIf="cargando">
+        <div class="col">
+            <div class="alert alert-primary">
+                Cargando...
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    type="submit">
+                Seleccionar
+            </button>
+        </div>
+    </div>
+</form>
+
+<h3>Formulario</h3>
+<pre> Valid: {{ miFormulario.valid }} </pre>
+<pre> Value: {{ miFormulario.value | json }} </pre>
+<br>
+
+<pre>  {{ miFormulario.get('frontera')?.errors | json }} </pre>
